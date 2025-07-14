@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Happy Birthday</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="icon" href="media/icon.png" type="image/x-icon">
+	<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
+</head>
+
+<body>
+	<div class="welcome-card-wrap" id="welcome-card">
+		<div id="cakeCardTextTop" class="cakeCardText">
+			<p class="top-text">Wow! You're already</p>
+		</div>
+		<div id="age">0</div>
+		<div id="cakeCardTextBottom" class="cakeCardText">
+			<p class="bottom-text">Time to make a wish and blow the candles 🎂</p>
+			<button id="continueBtn">Continue</button>
+		</div>
+	</div>
+
+	<div class="cake-card-wrap hidden" id="cake-card">
+		<h3>Cake pop</h3>
+		<p>Blow Out The Candles On Your Cake</p>
+		<div class="cake">
+			<img id="cake" src="./media/cakeWithCandles.gif">
+		</div>
+		<button id="blowButton">Blow out the candles</button>
+	</div>
+
+	<div id="fireworks-container"></div>
+
+	<div id="final-card" class="final-card hidden">
+		<h1>Happy Birthday, Sasha!</h1>
+		<img src="./media/happy-birthday.gif">
+		<p>Hope the wish will come true 💫<br><br> I wish you all the best! 🎂 <br><br>May this year be the most magical!</p>
+		<footer>Designed and created by <a href="https://www.instagram.com/helldemid/">helldemid</a></footer>
+	</div>
+
+
+	<script>
+		const ageEl = document.getElementById('age');
+		const textTop = document.getElementById('cakeCardTextTop');
+		const textBottom = document.getElementById('cakeCardTextBottom');
+
+		const maxAge = 22;
+		let age = 0;
+
+		const interval = setInterval(() => {
+			ageEl.textContent = age;
+			if (age >= maxAge) {
+				clearInterval(interval);
+				ageEl.classList.add('shrink');
+
+				textTop.classList.add('show');
+				textBottom.classList.add('show');
+			}
+			age++;
+		}, 100);
+
+		const continueBtn = document.getElementById('continueBtn');
+		const welcomeCard = document.getElementById('welcome-card');
+		const cakeCard = document.getElementById('cake-card');
+
+		continueBtn.addEventListener('click', () => {
+			welcomeCard.classList.add('hidden');
+			cakeCard.classList.remove('hidden');
+		});
+
+
+		const blowButton = document.getElementById('blowButton');
+		const cakeImg = document.getElementById('cake');
+
+		let audioContext;
+		let micStream;
+
+		const finalCard = document.getElementById('final-card');
+
+		function launchFireworks() {
+			const container = document.getElementById('fireworks-container');
+			const FireworksConstructor = Fireworks.default || Fireworks;
+			const fireworks = new FireworksConstructor(container, {
+				autoresize: true,
+				opacity: 0.9,
+				intensity: 30,
+				particles: 90,
+				friction: 0.95,
+				gravity: 1.5,
+				hue: { min: 0, max: 360 },
+				sound: { enable: false },
+				brightness: { min: 50, max: 100 },
+				acceleration: 1
+			});
+			fireworks.start();
+
+			setTimeout(() => {
+				cakeCard.classList.add('hidden');
+				finalCard.classList.remove('hidden');
+			}, 2000);
+		}
+
+
+		blowButton.addEventListener('click', async () => {
+			try {
+				audioContext = new (window.AudioContext || window.webkitAudioContext)();
+				micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+				const source = audioContext.createMediaStreamSource(micStream);
+				const analyser = audioContext.createAnalyser();
+				source.connect(analyser);
+
+				const data = new Uint8Array(analyser.fftSize);
+
+				const detectBlow = () => {
+					analyser.getByteTimeDomainData(data);
+					const volume = data.reduce((sum, val) => sum + Math.abs(val - 128), 0) / data.length;
+
+					if (volume > 15) { // чувствительность
+						stopListening();
+						cakeImg.src = "./media/cakeWithoutCandles.gif"; // новый путь к картинке
+
+						launchFireworks();
+					} else {
+						requestAnimationFrame(detectBlow);
+					}
+				};
+
+				detectBlow();
+			} catch (err) {
+				alert('Microphone access denied!');
+			}
+		});
+
+		function stopListening() {
+			micStream.getTracks().forEach(track => track.stop());
+			audioContext.close();
+		}
+
+	</script>
+
+</body>
+
+</html>

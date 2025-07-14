@@ -1,0 +1,193 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+@font-face {
+	font-family: 'Londrina Shadow';
+	src: url('./fonts/LondrinaShadow-Regular.eot');
+	src: local('Londrina Shadow Regular'), local('./fonts/LondrinaShadow-Regular'),
+		url('./fonts/LondrinaShadow-Regular.eot?#iefix') format('embedded-opentype'),
+		url('./fonts/LondrinaShadow-Regular.woff2') format('woff2'),
+		url('./fonts/LondrinaShadow-Regular.woff') format('woff'),
+		url('./fonts/LondrinaShadow-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Signika Negative";
+	src: url('./fonts/SignikaNegative-VariableFont_wght.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	background: #FFAAEA;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+/* Карточка обертка */
+.welcome-card-wrap {
+	width: 90%;
+	height: 90vh;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+/* Огромное число по центру */
+#age {
+	font-size: 56em;
+	font-family: "Londrina Shadow", sans-serif;
+	font-weight: 400;
+	color: white;
+
+	transition: transform 2s ease, opacity 2s ease;
+}
+
+/* Анимация уменьшения */
+#age.shrink {
+	transform: scale(0.4);
+	line-height: 0.5;
+	color: black;
+}
+
+/* Текст и кнопка — скрыты сначала */
+#cakeCardTextTop,
+#cakeCardTextBottom {
+	opacity: 0;
+	text-align: center;
+	color: white;
+	transition: opacity 2s ease;
+}
+
+#cakeCardTextTop.show,
+#cakeCardTextBottom.show {
+	opacity: 1;
+}
+
+/* Верхний и нижний текст */
+.cakeCardText p {
+	font-family: "Signika Negative", sans-serif;
+	font-size: 6rem;
+	margin: 20px 0;
+	color: rgb(255, 255, 255);
+}
+
+/* Кнопка */
+button {
+	font-family: "Signika Negative", sans-serif;
+	font-size: 3rem;
+	padding: 12px 24px;
+	background: #FF3399;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background 0.3s ease, color 0.3s ease;
+}
+
+.cakeCardText button:hover {
+	background: white;
+	color: #FF3399;
+}
+
+
+.cake-card-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 70vh;
+	width: 90%;
+	text-align: center;
+
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	/* более прозрачная граница */
+	border-radius: 18px;
+
+	background: #ff69b4;
+
+	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18), 0 1.5px 8px 0 rgba(255, 105, 180, 0.15);
+	/* мягкая тень */
+}
+
+.cake-card-wrap h3,
+.cake-card-wrap p {
+	font-family: "Signika Negative", sans-serif;
+}
+
+.cake-card-wrap h3 {
+	font-size: 8rem;
+}
+
+.cake-card-wrap p {
+	font-size: 3rem;
+}
+
+.cake {
+	width: 90%;
+	background: #ff69b4;
+	border-radius: 20px;
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.cake img {
+	width: 100%;
+}
+
+.final-card {
+	font-family: "Signika Negative", sans-serif;
+	color: white;
+	text-align: center;
+	transition: opacity 1s ease;
+	z-index: 1100;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 100vh;
+	width: 90%;
+
+	color: black;
+}
+
+.final-card h1 {
+	font-size: 6rem;
+}
+
+.final-card p {
+	font-size: 3.5rem;
+}
+
+footer {
+	font-size: 2rem;
+}
+
+footer a {
+	color: white;
+}
+
+.hidden {
+	display: none;
+}
+
+#fireworks-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	pointer-events: none;
+}
