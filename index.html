@@ -35,7 +35,8 @@
 	<div id="final-card" class="final-card hidden">
 		<h1>Happy Birthday, Sasha!</h1>
 		<img src="./media/happy-birthday.gif">
-		<p>Hope the wish will come true 💫<br><br> I wish you all the best! 🎂 <br><br>May this year be the most magical!</p>
+		<p>I hope your wish will come true 💫<br> I wish you all the best! 🎂 <br>May this year be the most
+			magical!</p>
 		<footer>Designed and created by <a href="https://www.instagram.com/helldemid/">helldemid</a></footer>
 	</div>
 
@@ -54,11 +55,15 @@
 				clearInterval(interval);
 				ageEl.classList.add('shrink');
 
-				textTop.classList.add('show');
-				textBottom.classList.add('show');
+				setTimeout(() => {
+					textTop.classList.add('show');
+					setTimeout(() => {
+						textBottom.classList.add('show');
+					}, 1000);
+				}, 1000);
 			}
 			age++;
-		}, 100);
+		}, 250);
 
 		const continueBtn = document.getElementById('continueBtn');
 		const welcomeCard = document.getElementById('welcome-card');
@@ -91,13 +96,16 @@
 				hue: { min: 0, max: 360 },
 				sound: { enable: false },
 				brightness: { min: 50, max: 100 },
-				acceleration: 1
+				acceleration: 1.1
 			});
 			fireworks.start();
 
 			setTimeout(() => {
 				cakeCard.classList.add('hidden');
 				finalCard.classList.remove('hidden');
+				setTimeout(() => {
+					finalCard.classList.add('shown');
+				}, 100);
 			}, 2000);
 		}
 
